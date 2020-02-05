@@ -1,5 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, {useState, useEffect} from 'react'
+import moment from 'moment'
+import axios from 'axios'
+import socketIOClient from 'socket.io-client'
+import {
+  ChatHeader, 
+  ChatBox, 
+  ChatItem, 
+  ChatHandleBox, 
+  ChatHandle
+} from './components/Chat/styles'
 
 const SendIcon = () => (
   <svg 
@@ -13,48 +22,40 @@ const SendIcon = () => (
   </svg>
 )
 
-const ChatHeader = styled.div`
-  color: #ffffff;
-  margin: 12px auto;
-  font-weight: bold;
-`
+const App = () => {
+  const url = 'http://192.168.5.218:7000'
+  const socket = socketIOClient(url)
+  const [message, setMessage] = useState('')
+  const [chats, setChat] = useState([])
 
-const ChatBox = styled.div`
-  padding: 10px;
-  font-size: 13px;
-`
-
-const ChatHandleBox = styled.div`
-  max-width: 480px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 50px;
-  background-color: #ffffff; 
-  margin: 0 auto;
-  left: 50%;
-  transform: translate(-50%);
-  border-top: 2px solid #ece9e9;
-  padding: 5px 10px;
-  display: flex;
-  justify-content: space-between;
-`
-
-const ChatHandle = styled.textarea`
-  font-size: 12px;
-  padding: 5px;
-  width: 100%;
-  border-color: transparent;
-  letter-spacing: 1px;
-
-  :focus {
-    outline: none;
+  const onSendMessage = () => {
+    if (message) {
+      socket.emit('chat', message)
+      setMessage('')
+    }
   }
-`
 
+  useEffect(() => {
+    socket.on('chat', chat => getChat())
+  }, [])
 
-function App() {
+  useEffect(() => {
+    getChat()
+  }, [])
+
+  const getChat = () => {
+    axios.get(`${url}/chat`)
+      .then(resp => {
+        const {status, data : {data}} = resp
+        if (status === 200) {
+          setChat(data)
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   return (
     <>
     <header>
@@ -66,15 +67,30 @@ function App() {
     </header>
     <main>
       <ChatBox>
-        Chat App
+        {chats.length > 0 &&
+          chats.map((chat, key) => (
+            <ChatItem key={key}>
+              <div>
+                {chat.message}
+              </div>
+              <div className="clock">
+                {moment.utc(chat.createdAt).format("HH:mm")}
+              </div>
+            </ChatItem>
+        ))}
       </ChatBox>
       <ChatHandleBox>
         <ChatHandle 
-          rows="2" 
+          rows="1" 
           cols="20"
           placeholder="Type a message"
-          type="text" />
-        <SendIcon/>
+          value={message}
+          onChange={e => setMessage(e.target.value)}
+          //onKeyDown={onSendMessage}
+        />
+        <span style={{cursor: 'pointer'}} onClick={onSendMessage}>
+          <SendIcon/>
+        </span>
       </ChatHandleBox>
     </main>
     </>
