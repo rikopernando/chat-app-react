@@ -1,0 +1,48 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $white;
+  font-family: 'Roboto Mono','Roboto Mono Bold','Roboto Mono Bold Italic','Roboto Mono Italic','Roboto Mono Light','Roboto Mono Light Italic','Roboto Mono Medium','Roboto Mono Medium','Roboto Mono Medium Italic','Roboto Mono Thin','Roboto Thin Italic', monospace;
+  overflow-x: hidden; 
+  font-size: 14px;
+  font-weight: 400;
+  background-color: #f7f7f7;
+  color: #4A4A47;
+}
+
+button { cursor: pointer; }
+button:disabled { cursor: default; }
+a {
+  text-decoration: none;
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  background-color: #554fe8; 
+  height: 50px;
+}
+
+main {
+  max-width: 480px;
+  position: relative;
+  top: 55px;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: calc(100vh - 60px);
+  margin: 0px auto;
+  background-color: #ffffff;
+}
+
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
