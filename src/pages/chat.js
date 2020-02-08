@@ -3,15 +3,16 @@ import moment from 'moment'
 import axios from 'axios'
 import socketIOClient from 'socket.io-client'
 import {
-  ChatHeader, 
-  ChatBox, 
-  ChatItem, 
-  ChatHandleBox, 
+  ChatHeader,
+  ChatBox,
+  ChatItem,
+  ChatHandleBox,
   ChatHandle
-} from './components/Chat/styles'
+} from '../components/Chat/styles'
+import {getSession} from "../utils/session"
 
 const SendIcon = () => (
-  <svg 
+  <svg
     style={{marginTop: 7, fontSize: 25, marginLeft: 10}}
     width="1em" 
     height="1em" 
@@ -30,7 +31,11 @@ const App = () => {
 
   const onSendMessage = () => {
     if (message) {
-      socket.emit('chat', message)
+      const session = getSession('chat-apps')
+      socket.emit('chat', {
+        message,
+        user_id: session.id
+      })
       setMessage('')
     }
   }
@@ -59,18 +64,19 @@ const App = () => {
   return (
     <>
     <header>
-      <div className="container">
         <ChatHeader>
-          header chat
+          <div className="container">
+            header chat
+          </div>
         </ChatHeader>
-      </div>
     </header>
     <main>
       <ChatBox>
         {chats.length > 0 &&
           chats.map((chat, key) => (
             <ChatItem key={key}>
-              <div>
+              <div className="user">{chat.User.name}</div>
+              <div className="message">
                 {chat.message}
               </div>
               <div className="clock">

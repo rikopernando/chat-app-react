@@ -9,16 +9,23 @@ export const ChatHeader = styled.div`
 export const ChatBox = styled.div`
   padding: 10px;
   font-size: 13px;
+  overflow-y: scroll;
+  margin-bottom: 50px;
 `
 
 export const ChatItem = styled.div`
-  background-color: #d3e4df59;
+  background-color: #d3e4dfcf;
   padding: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
   margin-bottom: 10px;
-  margin-bottom: 10px;
+  font-size: 12px;
+
+  .user {
+    font-size: 10px;
+    font-weight: bold;
+  }
 
   .clock {
     font-size: 10px;
@@ -28,17 +35,20 @@ export const ChatItem = styled.div`
 `
 
 export const ChatHandleBox = styled.div`
+  border-radius: 10px;
   max-width: 480px;
   position: fixed;
-  bottom: 0;
+  bottom: 2%;
   left: 0;
   width: 100%;
   height: 50px;
   background-color: #ffffff; 
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.07);
   margin: 0 auto;
   left: 50%;
   transform: translate(-50%);
   border-top: 2px solid #ece9e9;
+  border-bottom: 2px solid #ece9e9;
   padding: 5px 10px;
   display: flex;
   justify-content: space-between;
