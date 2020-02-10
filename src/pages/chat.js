@@ -47,7 +47,7 @@ const SettingIcon = () => (
 )
 
 const App = (props) => {
-  const url = 'http://192.168.43.236:7000'
+  const url = process.env.REACT_APP_URL 
   const socket = socketIOClient(url)
   const [message, setMessage] = useState('')
   const [chats, setChat] = useState([])
@@ -86,7 +86,6 @@ const App = (props) => {
   }
 
   const onExit = (e) => {
-    console.log(e, props)
     removeSession('chat-apps')
     props.history.push('/')
   }

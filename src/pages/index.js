@@ -1,4 +1,5 @@
 import React, {useState} from "react"
+import {useHistory} from "react-router-dom"
 import axios from "axios"
 import {storeSession} from "../utils/session"
 import styled from "styled-components"
@@ -34,18 +35,14 @@ const Button = styled.button`
   font-size: 16px;
 `
 
-const Home = (props) => {
+const Home = () => {
 
-  const url = 'http://192.168.43.236:7000'
+  const url = process.env.REACT_APP_URL 
   const [name, setName] = useState('')
-  
+  let history = useHistory()
+
   const onSubmit = (e) => {
     e.preventDefault() 
-    console.log(props)
-    // props.history.push('/chat')
-    /*
-    props.history.push({pathname: "/chat"})
-      */
     axios
       .post(`${url}/add-user`,{name})
       .then(resp => {
@@ -56,7 +53,7 @@ const Home = (props) => {
             data,
             {value: 26, type: "hours"}
           )
-          props.history.push("/chat")
+          history.push("/chat")
         }
       })
       .catch((err) => {
