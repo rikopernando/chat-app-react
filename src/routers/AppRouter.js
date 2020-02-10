@@ -5,27 +5,21 @@ import createHistory from "history/createBrowserHistory"
 import {getSession} from "../utils/session"
 import PublicRoute from "./PublicRouter"
 import PrivateRoute from "./PrivateRouter"
-import {ChatHeader} from '../components/Chat/styles'
-import HomePage from '../pages/'
-import ChatPage from '../pages/chat'
+
+const HomePage = lazy(() => import('../pages/'))
+const ChatPage = lazy(() => import('../pages/chat'))
 
 const history = createHistory()
+console.log(history)
 
 const AppRouter = ({isAuthenticated}) => {
   return (
     <Fragment>
-      <Suspense>
-        <Router
-          history={history}
-        >
-          <header>
-            <div className="container">
-              <ChatHeader>
-                header chat
-              </ChatHeader>
-            </div>
-          </header>
-          <main>
+      <Suspense fallback={null}>
+        <main>
+          <Router
+            history={history}
+          >
             <Switch>
               <PublicRoute 
                 isAuthenticated={isAuthenticated} 
@@ -37,8 +31,8 @@ const AppRouter = ({isAuthenticated}) => {
                 path="/chat" 
                 component={ChatPage} />
             </Switch>
-          </main>
-        </Router>
+          </Router>
+        </main>
       </Suspense>
     </Fragment>
   )

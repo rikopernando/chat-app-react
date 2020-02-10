@@ -36,11 +36,16 @@ const Button = styled.button`
 
 const Home = (props) => {
 
-  const url = 'http://192.168.5.218:7000'
+  const url = 'http://192.168.43.236:7000'
   const [name, setName] = useState('')
   
   const onSubmit = (e) => {
     e.preventDefault() 
+    console.log(props)
+    // props.history.push('/chat')
+    /*
+    props.history.push({pathname: "/chat"})
+      */
     axios
       .post(`${url}/add-user`,{name})
       .then(resp => {
@@ -51,7 +56,7 @@ const Home = (props) => {
             data,
             {value: 26, type: "hours"}
           )
-          props.history.push('/chat')
+          props.history.push("/chat")
         }
       })
       .catch((err) => {

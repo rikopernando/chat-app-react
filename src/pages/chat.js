@@ -7,9 +7,10 @@ import {
   ChatBox,
   ChatItem,
   ChatHandleBox,
-  ChatHandle
+  ChatHandle,
+  ChatSetting
 } from '../components/Chat/styles'
-import {getSession} from "../utils/session"
+import {getSession, removeSession} from "../utils/session"
 
 const SendIcon = () => (
   <svg
@@ -23,11 +24,34 @@ const SendIcon = () => (
   </svg>
 )
 
-const App = () => {
-  const url = 'http://192.168.5.218:7000'
+const MenuIcon = () => (
+  <svg 
+    style={{fontSize: 25}}
+    width="1em" 
+    height="1em"
+    viewBox="0 0 24 24">
+      <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z" fill="#fff"/>
+  </svg>
+)
+
+const SettingIcon = () => (
+  <svg 
+    style={{fontSize: 25, cursor: "pointer"}}
+    width="1em"
+    height="1em"
+    viewBox="0 0 24 24">
+      <path 
+      d="M12 16a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2z" 
+      fill="#fff"/>
+  </svg>
+)
+
+const App = (props) => {
+  const url = 'http://192.168.43.236:7000'
   const socket = socketIOClient(url)
   const [message, setMessage] = useState('')
   const [chats, setChat] = useState([])
+  const [isSetting, setSetting] = useState(false)
 
   const onSendMessage = () => {
     if (message) {
@@ -61,12 +85,29 @@ const App = () => {
       })
   }
 
+  const onExit = (e) => {
+    console.log(e, props)
+    removeSession('chat-apps')
+    props.history.push('/')
+  }
+
   return (
     <>
     <header>
         <ChatHeader>
-          <div className="container">
-            header chat
+          <div className="app-name">
+            {/*
+            <MenuIcon />
+            */}
+            <span>React Chat App</span>
+          </div>
+          <div>
+            <span onClick={() => setSetting(!isSetting)}>
+              <SettingIcon />
+            </span>
+            <ChatSetting active={isSetting}>
+              <div className="setting-item" onClick={onExit}>Exit</div>
+            </ChatSetting>
           </div>
         </ChatHeader>
     </header>
@@ -74,13 +115,23 @@ const App = () => {
       <ChatBox>
         {chats.length > 0 &&
           chats.map((chat, key) => (
-            <ChatItem key={key}>
+            <ChatItem key={key} style={
+                getSession('chat-apps') && chat.User.id === getSession('chat-apps').id ?
+                  {
+                    marginLeft: "20%",
+                    borderTopLeftRadius: 12,
+                    borderTopRightRadius: 0,
+                    backgroundColor: "#d3e4dfcf"
+                  }
+                  :
+                  {}
+              }>
               <div className="user">{chat.User.name}</div>
               <div className="message">
                 {chat.message}
               </div>
               <div className="clock">
-                {moment.utc(chat.createdAt).format("HH:mm")}
+                {moment(chat.createdAt).format("HH:mm")}
               </div>
             </ChatItem>
         ))}
