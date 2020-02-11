@@ -39,26 +39,35 @@ const Home = () => {
 
   const url = process.env.REACT_APP_URL 
   const [name, setName] = useState('')
+  const [error, setError] = useState(false)
+  const [isLoading, setLoading] = useState(false)
   let history = useHistory()
 
   const onSubmit = (e) => {
     e.preventDefault() 
-    axios
-      .post(`${url}/add-user`,{name})
-      .then(resp => {
-        const {data : {data}, status} = resp
-        if (status === 200) {
-          storeSession(
-            "chat-apps",
-            data,
-            {value: 26, type: "hours"}
-          )
-          history.push("/chat")
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    if(name) {
+      setLoading(true)
+      axios
+        .post(`${url}/add-user`,{name})
+        .then(resp => {
+          const {data : {data}, status} = resp
+          if (status === 200) {
+            storeSession(
+              "chat-apps",
+              data,
+              {value: 26, type: "hours"}
+            )
+            setLoading(false)
+            history.push("/chat")
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          setLoading(false)
+        })
+    } else {
+      setError(true)
+    }
   }
 
   return (
@@ -73,7 +82,22 @@ const Home = () => {
             value={name} 
             onChange={(e) => setName(e.target.value)} 
           />
-          <Button type="submit">Submit</Button>
+            <div 
+              style={{
+                color: "#da4157",
+                fontSize: 12,
+                fontStyle: "italic",
+                fontWeight: "bold"
+            }}>
+              {error && "Please input your name"}
+            </div>
+          <Button type="submit">
+            {isLoading ? (
+                <div style={{fontStyle: "italic"}}>please wait...</div>
+            ) : 
+              "Submit"
+            }
+          </Button>
         </Box>
       </form>
     </div>
