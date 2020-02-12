@@ -6,7 +6,8 @@ const port = process.env.PORT || 8000
 
 app.use(express.static(publicPath))
 
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
+  console.log(process.env)
   res.sendFile(path.join(publicPath, 'index.html'))
 })
 
