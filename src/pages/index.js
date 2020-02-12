@@ -43,8 +43,6 @@ const Home = () => {
   const [isLoading, setLoading] = useState(false)
   let history = useHistory()
 
-  console.log(process.env)
-
   const onSubmit = (e) => {
     e.preventDefault() 
     if(name) {
