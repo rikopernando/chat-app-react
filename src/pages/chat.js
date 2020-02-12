@@ -10,6 +10,7 @@ import {
   ChatHandle,
   ChatSetting
 } from '../components/Chat/styles'
+import Loader from "../components/Chat/Loader"
 import {getSession, removeSession} from "../utils/session"
 
 const SendIcon = () => (
@@ -49,14 +50,15 @@ const SettingIcon = () => (
 const App = (props) => {
   const url = process.env.REACT_APP_URL 
   const socket = socketIOClient(url)
+  const session = getSession('chat-apps')
   const [message, setMessage] = useState('')
   const [chats, setChat] = useState([])
   const [isSetting, setSetting] = useState(false)
+  const [isLoading, setLoading] = useState(false)
 
   const onSendMessage = () => {
     if (message) {
-      const session = getSession('chat-apps')
-      socket.emit('chat', {
+      socket.emit('new message', {
         message,
         user_id: session.id
       })
@@ -65,10 +67,11 @@ const App = (props) => {
   }
 
   useEffect(() => {
-    socket.on('chat', chat => getChat())
+    socket.on('new message', chat => getChat())
   }, [])
 
   useEffect(() => {
+    setLoading(true)
     getChat()
   }, [])
 
@@ -78,10 +81,15 @@ const App = (props) => {
         const {status, data : {data}} = resp
         if (status === 200) {
           setChat(data)
+          setLoading(false)
+          window.scrollTo(
+            0,document.querySelector("#chat-box").scrollHeight
+          )
         }
       })
       .catch((err) => {
         console.log(err)
+        setLoading(false)
       })
   }
 
@@ -111,43 +119,47 @@ const App = (props) => {
         </ChatHeader>
     </header>
     <main>
-      <ChatBox>
-        {chats.length > 0 &&
-          chats.map((chat, key) => (
-            <ChatItem key={key} style={
-                getSession('chat-apps') && chat.User.id === getSession('chat-apps').id ?
-                  {
-                    marginLeft: "20%",
-                    borderTopLeftRadius: 12,
-                    borderTopRightRadius: 0,
-                    backgroundColor: "#d3e4dfcf"
-                  }
-                  :
-                  {}
-              }>
-              <div className="user">{chat.User.name}</div>
-              <div className="message">
-                {chat.message}
-              </div>
-              <div className="clock">
-                {moment(chat.createdAt).format("HH:mm")}
-              </div>
-            </ChatItem>
-        ))}
-      </ChatBox>
-      <ChatHandleBox>
-        <ChatHandle 
-          rows="1" 
-          cols="20"
-          placeholder="Type a message"
-          value={message}
-          onChange={e => setMessage(e.target.value)}
-          //onKeyDown={onSendMessage}
-        />
-        <span style={{cursor: 'pointer'}} onClick={onSendMessage}>
-          <SendIcon/>
-        </span>
-      </ChatHandleBox>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <ChatBox id="chat-box">
+            {chats.length > 0 &&
+              chats.map((chat, key) => (
+                <ChatItem 
+                  key={key} 
+                  style={session && chat.User.id === session.id ? {
+                      marginLeft: "20%",
+                      borderTopLeftRadius: 12,
+                      borderTopRightRadius: 0,
+                      backgroundColor: "#d3e4dfcf"
+                    } : {}
+                  }>
+                  <div className="user">{chat.User.name}</div>
+                  <div className="message">
+                    {chat.message}
+                  </div>
+                  <div className="clock">
+                    {moment(chat.createdAt).format("HH:mm")}
+                  </div>
+                </ChatItem>
+            ))}
+          </ChatBox>
+          <ChatHandleBox>
+            <ChatHandle 
+              rows="1" 
+              cols="20"
+              placeholder="Type a message"
+              value={message}
+              onChange={e => setMessage(e.target.value)}
+              //onKeyDown={onSendMessage}
+            />
+            <span style={{cursor: 'pointer'}} onClick={onSendMessage}>
+              <SendIcon/>
+            </span>
+          </ChatHandleBox>
+        </>
+      )}
     </main>
     </>
   );

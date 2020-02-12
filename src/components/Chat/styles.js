@@ -20,7 +20,7 @@ export const ChatHeader = styled.div`
 export const ChatBox = styled.div`
   padding: 10px;
   font-size: 13px;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-bottom: 50px;
 `
 
