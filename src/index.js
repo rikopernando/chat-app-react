@@ -8,9 +8,9 @@ import "./styles/styles.scss"
 const store = configureStore()
 
 const app = (
-    <Provider store={store}>
-        <AppRouter />
-    </Provider>
+  <Provider store={store}>
+    <AppRouter />
+  </Provider>
 )
 
 ReactDOM.render(app, document.getElementById("root"))
