@@ -7,7 +7,7 @@ import {
   ChatBox,
   ChatItem,
   ChatHandleBox,
-  ChatHandle,
+  ChatInput,
   ChatSetting
 } from '../components/Chat/styles'
 import Loader from "../components/Chat/Loader"
@@ -15,23 +15,13 @@ import {getSession, removeSession} from "../utils/session"
 
 const SendIcon = () => (
   <svg
-    style={{marginTop: 7, fontSize: 25, marginLeft: 10}}
+    style={{fontSize: "1.25rem"}}
     width="1em" 
     height="1em" 
     viewBox="0 0 24 24">
       <path 
         d="M4 6.03l7.5 3.22l-7.5-1V6.03m7.5 8.72L4 17.97v-2.22l7.5-1M2 3v7l15 2l-15 2v7l21-9L2 3z"
-        fill="#554fe8"/>
-  </svg>
-)
-
-const MenuIcon = () => (
-  <svg 
-    style={{fontSize: 25}}
-    width="1em" 
-    height="1em"
-    viewBox="0 0 24 24">
-      <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z" fill="#fff"/>
+        fill="#fff"/>
   </svg>
 )
 
@@ -103,9 +93,6 @@ const App = (props) => {
     <header>
         <ChatHeader>
           <div className="app-name">
-            {/*
-            <MenuIcon />
-            */}
             <span>React Chat App</span>
           </div>
           <div>
@@ -113,7 +100,7 @@ const App = (props) => {
               <SettingIcon />
             </span>
             <ChatSetting active={isSetting}>
-              <div className="setting-item" onClick={onExit}>Exit</div>
+              <div className="setting-item" onClick={onExit}>Keluar</div>
             </ChatSetting>
           </div>
         </ChatHeader>
@@ -132,7 +119,7 @@ const App = (props) => {
                       marginLeft: "20%",
                       borderTopLeftRadius: 12,
                       borderTopRightRadius: 0,
-                      backgroundColor: "#d3e4dfcf"
+                      backgroundColor: "#C1E6FF"
                     } : {}
                   }>
                   <div className="user">{chat.User.name}</div>
@@ -146,7 +133,7 @@ const App = (props) => {
             ))}
           </ChatBox>
           <ChatHandleBox>
-            <ChatHandle 
+            <ChatInput 
               rows="1" 
               cols="20"
               placeholder="Type a message"
@@ -154,7 +141,7 @@ const App = (props) => {
               onChange={e => setMessage(e.target.value)}
               //onKeyDown={onSendMessage}
             />
-            <span style={{cursor: 'pointer'}} onClick={onSendMessage}>
+            <span onClick={onSendMessage}>
               <SendIcon/>
             </span>
           </ChatHandleBox>

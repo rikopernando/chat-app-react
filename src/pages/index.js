@@ -4,35 +4,46 @@ import axios from "axios"
 import {storeSession} from "../utils/session"
 import styled from "styled-components"
 
-const Box = styled.div`
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
+const Form = styled.form`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-width: 100%;
+  min-height: 100vh;
+
+  div {
+    min-width: 300px;
+  }
 `
 
 const Input = styled.input`
   padding: 16px;
   width: 100%;
-  border-radius: 2px;
+  border-radius: 8px;
   border-color: transparent;
   outline: none;
-  border: 1px solid #554fe8;
+  border: 1px solid rgb(0 0 0 / 0.12);
   font-size: 16px;
+  font-family: "Montserrat", sans-serif;
 `
 
 const Button = styled.button`
   width: 100%;
   color: #fff;
-  background: #554fe8;
-  padding: 16px;
-  font-weight: bold;
+  background: #FF7C1F;
+  padding: 12px;
   border: none;
-  border-radius: 4px;
-  margin-top: 10px;
+  border-radius: 8px;
+  margin-top: 1rem;
   font-size: 16px;
+  font-family: "Montserrat", sans-serif;
+  outline: none;
+
+  &:disabled {
+    opacity: 0.5;
+  }
 `
 
 const Home = () => {
@@ -72,11 +83,11 @@ const Home = () => {
 
   return (
     <div className="container">
-      <form onSubmit={onSubmit}>
-        <Box>
+      <Form onSubmit={onSubmit}>
+        <div>
           <Input 
             type="text" 
-            placeholder="What's your name?"
+            placeholder="Masukan Nama Kamu"
             name="name" 
             id="name" 
             value={name} 
@@ -85,21 +96,15 @@ const Home = () => {
             <div 
               style={{
                 color: "#da4157",
-                fontSize: 12,
-                fontStyle: "italic",
-                fontWeight: "bold"
+                fontSize: 12
             }}>
-              {error && "Please input your name"}
+              {error && "Masukin nama kamu dulu ya"}
             </div>
-          <Button type="submit">
-            {isLoading ? (
-                <div style={{fontStyle: "italic"}}>please wait...</div>
-            ) : 
-              "Submit"
-            }
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? "Loading..." : "Masuk"}
           </Button>
-        </Box>
-      </form>
+        </div>
+      </Form>
     </div>
   )
 }

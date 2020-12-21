@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +8,7 @@
 
 body {
   background-color: $white;
-  font-family: 'Roboto Mono','Roboto Mono Bold','Roboto Mono Bold Italic','Roboto Mono Italic','Roboto Mono Light','Roboto Mono Light Italic','Roboto Mono Medium','Roboto Mono Medium','Roboto Mono Medium Italic','Roboto Mono Thin','Roboto Thin Italic', monospace;
+  font-family: 'Montserrat', sans-serif;
   overflow-x: hidden; 
   font-size: 14px;
   font-weight: 400;
@@ -26,17 +28,18 @@ header {
   top: 0;
   left: 0;
   z-index: 99;
-  background-color: #554fe8; 
-  height: 50px;
+  background-color: #0E3854; 
+  height: 60px;
+  font-family: 'Montserrat', sans-serif;
 }
 
 main {
   max-width: 480px;
   position: relative;
-  top: 25px;
   width: 100%;
   box-sizing: border-box;
-  min-height: calc(100vh - 60px);
+  height: 100vh;
+  // min-height: calc(100vh - 60px);
   margin: 0px auto;
  // background-color: #ffffff;
 }

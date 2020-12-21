@@ -11,7 +11,7 @@ const style = {
 
 const Loader = () => (
   <div style={style}>
-    <BeatLoader sizeUnit={"px"} size={14} color={"#554fe8"} />
+    <BeatLoader sizeUnit={"px"} size={14} color={"#FF7C1F"} />
   </div>
 )
 

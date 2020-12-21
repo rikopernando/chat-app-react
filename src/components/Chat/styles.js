@@ -2,42 +2,47 @@ import styled from 'styled-components'
 
 export const ChatHeader = styled.div`
   color: #ffffff;
-  margin: 12px;
-  font-weight: bold;
+  margin: 1rem;
+  font-weight: 400;
   display: flex;
   justify-content: space-between;
 
   .app-name {
     display: flex;
+    align-items: center;
   }
 
   span {
-    margin-top: 3px;
     font-size: 16px;
   }
 `
 
 export const ChatBox = styled.div`
-  padding: 10px;
-  font-size: 13px;
+  padding: 1rem 1rem 5rem 1rem;
   overflow-y: auto;
-  margin-bottom: 50px;
+  margin-top: 3.8rem;
 `
 
 export const ChatItem = styled.div`
   background-color: #ffffff;
-  padding: 10px;
+  padding: 12px;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
   border-bottom-left-radius: 12px;
-  margin-bottom: 10px;
-  font-size: 12px;
+  margin-bottom: 1rem;
   width: 80%;
   box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.14);
 
   .user {
-    font-size: 10px;
-    font-weight: bold;
+    font-size: 12px;
+    font-weight: 600;
+    color: #0E3854;
+    margin-bottom: 0.5rem;
+  }
+
+  .message {
+    font-size: 1rem;
+    color: #333;
   }
 
   .clock {
@@ -48,34 +53,44 @@ export const ChatItem = styled.div`
 `
 
 export const ChatHandleBox = styled.div`
-  border-radius: 10px;
+  padding: 0 1rem;
+  margin-bottom: 0.5rem;
   max-width: 480px;
   position: fixed;
-  bottom: 2%;
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 50px;
-  background-color: #ffffff; 
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.07);
-  margin: 0 auto;
   left: 50%;
   transform: translate(-50%);
-  border-top: 2px solid #ece9e9;
-  border-bottom: 2px solid #ece9e9;
-  padding: 5px 10px;
   display: flex;
   justify-content: space-between;
+
+  span {
+    cursor: pointer;
+    background: #FF7C1F;
+    border-radius: 50%;
+    width: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `
 
-export const ChatHandle = styled.textarea`
-  font-size: 12px;
-  padding: 5px;
+export const ChatInput = styled.textarea`
+  border-radius: 25px;
+  padding: 1rem;
+  font-size: 1rem;
   width: 100%;
   border-color: transparent;
-  letter-spacing: 1px;
+  resize: none;
+  font-family: "Montserrat",sans-serif;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.07);
+  outline: none;
+  margin-right: 1rem;
+  transition: all .3s ease;
 
-  :focus {
-    outline: none;
+  &:focus {
+    border: 1px solid #FF7C1F;
   }
 `
 
@@ -100,15 +115,9 @@ export const ChatSetting = styled.div`
   border-radius: .25rem; 
 
   .setting-item {
-    display: block;
     width: 100%;
-    padding: .25rem 1rem;
-    clear: both;
+    padding: 0.5rem 1rem;
     font-weight: 400;
-    color: #212529;
-    text-align: inherit;
-    white-space: nowrap;
-    background-color: transparent;
-    border: 0;
+    color: #0E3854;
   }
 `
