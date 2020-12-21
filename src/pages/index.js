@@ -27,6 +27,10 @@ const Input = styled.input`
   border: 1px solid rgb(0 0 0 / 0.12);
   font-size: 16px;
   font-family: "Montserrat", sans-serif;
+
+  &:focus {
+    border: 1px solid #FF7C1F;
+  }
 `
 
 const Button = styled.button`
