@@ -46,23 +46,6 @@ export const Button = styled.button`
   }
 `
 
-export const ChatHeader = styled.div`
-  color: #ffffff;
-  margin: 1rem;
-  font-weight: 400;
-  display: flex;
-  justify-content: space-between;
-
-  .app-name {
-    display: flex;
-    align-items: center;
-  }
-
-  span {
-    font-size: 16px;
-  }
-`
-
 export const ChatBox = styled.div`
   padding: 1rem 1rem 5rem 1rem;
   overflow-y: auto;
@@ -78,6 +61,15 @@ export const ChatItem = styled.div`
   margin-bottom: 1rem;
   width: 80%;
   box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.14);
+
+  ${(props) =>
+    props.me &&
+    `
+    margin-left: "20%";
+    border-top-left-radius: 12px;
+    border-top-right-radius: 0;
+    background-color: "#C1E6FF";
+  `}
 
   .user {
     font-size: 12px;
@@ -137,33 +129,5 @@ export const ChatInput = styled.textarea`
 
   &:focus {
     border: 1px solid #ff7c1f;
-  }
-`
-
-export const ChatSetting = styled.div`
-  display: ${(props) => (props.active ? "block" : "none")};
-  position: absolute;
-  transform: translate3d(0px, 38px, 0px);
-  top: 0px;
-  right: 0px;
-  will-change: transform;
-  float: left;
-  min-width: 10rem;
-  padding: 0.5rem 0;
-  margin: 0.125rem 0 0;
-  font-size: 1rem;
-  color: #212529;
-  text-align: left;
-  list-style: none;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0.25rem;
-
-  .setting-item {
-    width: 100%;
-    padding: 0.5rem 1rem;
-    font-weight: 400;
-    color: #0e3854;
   }
 `

@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, Fragment} from "react"
 import PropTypes from "prop-types"
 import moment from "moment"
 import axios from "axios"
 import socketIOClient from "socket.io-client"
+import Header from "../components/Chat/Header"
 import Loader from "../components/Chat/Loader"
 import SendIcon from "../icons/Send"
-import SettingIcon from "../icons/Setting"
-import {getSession, removeSession} from "../utils/session"
-import {ChatHeader, ChatBox, ChatItem, ChatHandleBox, ChatInput, ChatSetting} from "./styles"
+import {getSession} from "../utils/session"
+import {ChatBox, ChatItem, ChatHandleBox, ChatInput} from "./styles"
 
 const App = (props) => {
   const url = process.env.REACT_APP_URL
@@ -15,7 +15,6 @@ const App = (props) => {
   const session = getSession("chat-apps")
   const [message, setMessage] = useState("")
   const [chats, setChat] = useState([])
-  const [isSetting, setSetting] = useState(false)
   const [isLoading, setLoading] = useState(false)
 
   const onSendMessage = () => {
@@ -40,11 +39,11 @@ const App = (props) => {
   const getChat = () => {
     axios
       .get(`${url}/chat`)
-      .then((resp) => {
+      .then((response) => {
         const {
           status,
           data: {data}
-        } = resp
+        } = response
         if (status === 200) {
           setChat(data)
           setLoading(false)
@@ -57,51 +56,18 @@ const App = (props) => {
       })
   }
 
-  const onExit = () => {
-    removeSession("chat-apps")
-    props.history.push("/")
-  }
-
   return (
-    <>
-      <header>
-        <ChatHeader>
-          <div className="app-name">
-            <span>React Chat App</span>
-          </div>
-          <div>
-            <span onClick={() => setSetting(!isSetting)}>
-              <SettingIcon />
-            </span>
-            <ChatSetting active={isSetting}>
-              <div className="setting-item" onClick={onExit}>
-                Keluar
-              </div>
-            </ChatSetting>
-          </div>
-        </ChatHeader>
-      </header>
+    <Fragment>
+      <Header {...props} />
       <main>
         {isLoading ? (
           <Loader />
         ) : (
-          <>
+          <Fragment>
             <ChatBox id="chat-box">
               {chats.length > 0 &&
                 chats.map((chat, key) => (
-                  <ChatItem
-                    key={key}
-                    style={
-                      session && chat.User.id === session.id
-                        ? {
-                            marginLeft: "20%",
-                            borderTopLeftRadius: 12,
-                            borderTopRightRadius: 0,
-                            backgroundColor: "#C1E6FF"
-                          }
-                        : {}
-                    }
-                  >
+                  <ChatItem key={key} me={session && chat.User.id === session.id}>
                     <div className="user">{chat.User.name}</div>
                     <div className="message">{chat.message}</div>
                     <div className="clock">{moment(chat.createdAt).format("HH:mm")}</div>
@@ -120,10 +86,10 @@ const App = (props) => {
                 <SendIcon />
               </span>
             </ChatHandleBox>
-          </>
+          </Fragment>
         )}
       </main>
-    </>
+    </Fragment>
   )
 }
 
